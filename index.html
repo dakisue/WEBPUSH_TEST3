@@ -1,0 +1,49 @@
+      var endpointSections = mergedEndpoint.split('/');
+      var subscriptionId = endpointSections[endpointSections.length - 1];
+      var curlCommand = 'curl --header "Authorization: key=' + API_KEY +
+        '" --header Content-Type:"application/json" ' + GCM_ENDPOINT +
+        ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"';
+      
+      /*説明用のキー情報教示  */
+      var frameinfo = document.getElementById("push_info");
+      frameinfo.innerHTML = API_KEYCommandTxt + "<br/>";
+      frameinfo.innerHTML += API_KEY + "<br/>";
+      frameinfo.innerHTML += GCM_ENDPOINTCommandTxt + "<br/>";
+      frameinfo.innerHTML += GCM_ENDPOINT + "<br/>";
+      frameinfo.innerHTML += subscriptionIdCommandTxt  + "<br/>";
+      frameinfo.innerHTML += subscriptionId ;
+      
+      /*cUrlコマンド出力*/
+      var frame = document.getElementById("command");
+      //frame.innerText = curlCommand;
+      frame.innerHTML = curlCommandTxt + "<br/>";
+      frame.innerHTML += curlCommand;
+    }
+   
+    function showSubscriptionInfo(subscription) {
+      console.log(subscription);
+      console.log(subscription.getKey('p256dh'));
+      console.log(subscription.getKey('auth'));
+      
+      //暗号化情報は今回不要のためコメントアウト
+      /* 
+      var frame = document.getElementById("info");
+      frame.innerHTML = "Endpoint : " + subscription.endpoint + "<br/>";
+      frame.innerHTML += "p256dh Key : " + btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('p256dh')))) + "<br/>";
+      frame.innerHTML += "Authentication Secret : " + btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('auth')))) + "<br/>"; 
+      */
+    }
+  </script>
+</head>
+<body onload="onLoad();">
+  <p style="font-size : larger">Demo Page</p><br />
+  <a style="font-size : medium" href="#" onclick="SubscribePushNotification();">プッシュ通知の購読</a><br /><br />
+  <a style="font-size : medium" href="#" onclick="UnSubscribePushNotification();">プッシュ通知の購読解除</a><br /><br />
+  <hr />
+  <p style="font-size : medium" id="push_info"></p>  
+  <hr />
+  <p style="font-size : medium" id="command"></p>
+  <hr />
+  <p style="font-size : medium" id="info"></p>
+</body>
+</html>
